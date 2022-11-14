@@ -4,62 +4,70 @@ exclude: "^\
     (docs/.*)\
     "
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
-    files: ^src/
-    hooks:
-    -   id: check-added-large-files
-    -   id: check-ast
-    -   id: check-builtin-literals
-    -   id: check-docstring-first
-    -   id: check-merge-conflict
-    -   id: check-toml
-    -   id: check-yaml
-    -   id: debug-statements
-    -   id: end-of-file-fixer
-    -   id: mixed-line-ending
-        args:
-          [
-            "--fix=lf",
-          ]
-    -   id: name-tests-test
-        args:
-          [
-            "--pytest",
-          ]
-    -   id: trailing-whitespace
-        args:
-          [
-            "--markdown-linebreak-ext=md",
-          ]
--   repo: https://github.com/pycqa/isort
-    rev: 5.10.1
-    hooks:
-    -   id: isort
-        exclude: ^docs/
-        name: isort (python)
--   repo: local
-    hooks:
-    -   id: pylint
-        name: pylint
-        entry: pylint
-        language: system
-        types: [python]
-        args:
-          [
-            "-rn", # Only display messages
-            "-sn", # Don't display the score
-          ]
-        exclude: ^docs/
--   repo: https://github.com/pycqa/flake8
-    rev: 'c2dc3514b189811b1e3190eb51d36c4cc599bdf3'  # pick a git hash / tag to point to
-    hooks:
-    -   id: flake8
--   repo: https://github.com/pycqa/pydocstyle
-    rev: 6.1.1  # pick a git hash / tag to point to
-    hooks:
-    -   id: pydocstyle
--   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: '586b4f092e52673a0fe64a149440ecdf7fc125c5'  # Use the sha / tag you want to point at
-    hooks:
-    -   id: mypy
+    -   repo: https://github.com/pre-commit/pre-commit-hooks
+        rev: v3.2.0
+        hooks:
+            -   id: check-added-large-files
+            -   id: check-ast
+            -   id: check-builtin-literals
+            -   id: check-docstring-first
+            -   id: check-merge-conflict
+            -   id: check-toml
+            -   id: check-yaml
+                exclude: |
+                    (?x)^(
+                        environment.yml
+                    )$
+            -   id: debug-statements
+            -   id: mixed-line-ending
+                args:
+                  [
+                      "--fix=lf",
+                  ]
+            -   id: end-of-file-fixer
+                exclude: |
+                    (?x)(
+                      ^requirements.txt/|
+                      ^environment.yml/
+                    )
+            -   id: name-tests-test
+                args:
+                  [
+                      "--pytest",
+                  ]
+            -   id: trailing-whitespace
+                args:
+                  [
+                      "--markdown-linebreak-ext=md",
+                  ]
+    -   repo: https://github.com/pycqa/isort
+        rev: 5.10.1
+        hooks:
+            -   id: isort
+                exclude: ^docs/
+                name: isort (python)
+    -   repo: local
+        hooks:
+            -   id: pylint
+                name: pylint
+                entry: pylint
+                language: system
+                types: [ python ]
+                args:
+                  [
+                      "-rn", # Only display messages
+                      "-sn", # Don't display the score
+                  ]
+                exclude: ^docs/
+    -   repo: https://github.com/pycqa/flake8
+        rev: 'c2dc3514b189811b1e3190eb51d36c4cc599bdf3'  # pick a git hash / tag to point to
+        hooks:
+            -   id: flake8
+    -   repo: https://github.com/pycqa/pydocstyle
+        rev: 6.1.1  # pick a git hash / tag to point to
+        hooks:
+            -   id: pydocstyle
+    -   repo: https://github.com/pre-commit/mirrors-mypy
+        rev: '586b4f092e52673a0fe64a149440ecdf7fc125c5'  # Use the sha / tag you want to point at
+        hooks:
+            -   id: mypy
