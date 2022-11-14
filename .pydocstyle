@@ -1,0 +1,5 @@
+[pydocstyle]
+
+inherit = false
+convention = google
+match = .*\.py
