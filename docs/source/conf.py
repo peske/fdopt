@@ -11,7 +11,8 @@
 #
 import os
 import sys
-print(os.path.abspath('.'))
+print(os.listdir(os.path.abspath('../../src')))
+print(os.listdir(os.path.abspath('../../src/fdopt')))
 sys.path.insert(0, os.path.abspath('../../src'))
 
 
