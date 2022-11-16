@@ -1,0 +1,9 @@
+-r requirements.txt
+pre-commit
+pylint
+flake8
+mypy
+isort
+pydocstyle
+sphinx
+furo
