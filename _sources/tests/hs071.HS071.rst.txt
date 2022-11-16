@@ -1,0 +1,42 @@
+﻿hs071.HS071
+===========
+
+.. currentmodule:: hs071
+
+.. autoclass:: HS071
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~HS071.gradient
+      ~HS071.hessian
+      ~HS071.nonlinear_constraints
+      ~HS071.nonlinear_constraints_jacobian
+      ~HS071.objective
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~HS071.implements_hessian
+      ~HS071.lin_equality_constraints
+      ~HS071.lin_inequality_constraints
+      ~HS071.nonlinear_equality_constraints_count
+      ~HS071.nonlinear_inequality_constraints_count
+      ~HS071.x_count
+      ~HS071.x_lower
+      ~HS071.x_upper
+   
+   

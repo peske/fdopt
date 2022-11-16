@@ -1,0 +1,42 @@
+﻿fdopt.NLPSolvable
+=================
+
+.. currentmodule:: fdopt
+
+.. autoclass:: NLPSolvable
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~NLPSolvable.gradient
+      ~NLPSolvable.hessian
+      ~NLPSolvable.nonlinear_constraints
+      ~NLPSolvable.nonlinear_constraints_jacobian
+      ~NLPSolvable.objective
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~NLPSolvable.implements_hessian
+      ~NLPSolvable.lin_equality_constraints
+      ~NLPSolvable.lin_inequality_constraints
+      ~NLPSolvable.nonlinear_equality_constraints_count
+      ~NLPSolvable.nonlinear_inequality_constraints_count
+      ~NLPSolvable.x_count
+      ~NLPSolvable.x_lower
+      ~NLPSolvable.x_upper
+   
+   
