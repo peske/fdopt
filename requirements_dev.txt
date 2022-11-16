@@ -7,3 +7,4 @@ isort
 pydocstyle
 sphinx
 furo
+pytest

@@ -236,6 +236,7 @@ class NLPSolvable(abc.ABC):
             Objective function value at point ``x``.
         """
 
+    @abc.abstractmethod
     def gradient(self, x: NDArray[np.float_]) -> NDArray[np.float_]:
         """Calculate gradient of the objective function at point ``x``.
 
@@ -249,9 +250,12 @@ class NLPSolvable(abc.ABC):
 
     # flake8: noqa: E731
     # pylint: disable=line-too-long
-    def hessian(self, x: NDArray[np.float_], sigma: SupportsFloat,
-                lambda_eq: SupportsFloat, lambda_ineq: SupportsFloat) \
-            -> NDArray[np.float_]:
+    def hessian(self,
+                x: NDArray[np.float_],
+                sigma: SupportsFloat,
+                lambda_ineq: NDArray[np.float_],
+                lambda_eq: NDArray[np.float_]
+                ) -> NDArray[np.float_]:
         """Calculate analytical Hessian at point ``x``.
 
         The method should return *Hessian of Lagrangian*. It is not a simple
@@ -269,17 +273,17 @@ class NLPSolvable(abc.ABC):
         solution.
 
         .. note::
-           If the method is implemented, :py:func:`hessian_structure` also
-           needs to be implemented, and :py:attr:`implements_hessian` should
-           be overriden to return ``True``.
+           If this method is overriden and properly implemented,
+           :py:attr:`implements_hessian` property should also be overriden to
+           return ``True``.
 
         Args:
-            x: Vector of variable values, with length :py:attr:`x_count`
-            sigma: Objective function's hessian coefficient.
-            lambda_eq: Nonlinear equality constraint second derivative
-                coefficient.
-            lambda_ineq: Nonlinear equality constraint second derivative
-                coefficient.
+            x: Vector of variable values, with length :py:attr:`x_count`.
+            sigma: Coefficient for objective function Hessian.
+            lambda_ineq: Vector of Lagrangian coefficients of nonlinear
+                inequality constraints.
+            lambda_eq: Vector of Lagrangian coefficients of nonlinear equality
+                constraints.
 
         Raises:
             NotImplementedError: if the method is not implemented, in which
@@ -287,23 +291,5 @@ class NLPSolvable(abc.ABC):
 
         Returns:
             Hessian matrix. It is a square matrix with :py:attr:`x_count` rows.
-        """
-        raise NotImplementedError
-
-    def hessian_structure(self) -> NDArray[np.int_]:
-        """The structure of the hessian.
-
-        Hessian matrix can be *upper triangular*, *lower triangular*, or
-        *full*. This  method defines the shape of the matrix returned by
-        :py:func:`hessian` method.
-
-        Raises:
-            NotImplementedError: if the method is not implemented, in which
-                case :py:attr:`implements_hessian` has to return ``False``.
-
-        Returns:
-            Matrix with the same dimensions as the one returned by
-            :py:func:`hessian`, that contains ones at the positions where the
-            actual Hessian matrix contains values, and zeros elsewhere.
         """
         raise NotImplementedError

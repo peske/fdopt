@@ -23,10 +23,10 @@ repos:
                   ]
             -   id: end-of-file-fixer
             -   id: name-tests-test
-                args:
-                  [
-                      "--pytest",
-                  ]
+                exclude: |
+                    (?x)^(
+                        tests/hs071.py
+                    )$
             -   id: trailing-whitespace
                 args:
                   [

@@ -10,6 +10,7 @@ Welcome to FDOpt documentation!
    :maxdepth: 4
    :caption: Contents:
 
+   qs
    api
 
 Indices and tables
