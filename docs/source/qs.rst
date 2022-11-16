@@ -1,9 +1,9 @@
-API Reference
-=============
+Quick Start
+===========
 
 .. autosummary::
-   :toctree: api
+   :toctree: tests
    :template: custom-class-template.rst
    :recursive:
 
-   fdopt.NLPSolvable
+   hs071.HS071
