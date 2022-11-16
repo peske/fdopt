@@ -40,7 +40,7 @@ class NLPSolvable(abc.ABC):
     Nonlinear constraints are exposed via :py:func:`nonlinear_constraints`
     method.
 
-    The objective function is exposed via :py:func:`objective_function` method.
+    The objective function is exposed via :py:func:`objective` method.
 
     Examples:
         .. code-block:: python
@@ -176,11 +176,8 @@ class NLPSolvable(abc.ABC):
     # pylint: disable=invalid-name
     @abc.abstractmethod
     def nonlinear_constraints(self, x: NDArray[np.float_]) \
-            -> Tuple[NDArray[np.float_],
-                     NDArray[np.float_],
-                     NDArray[np.float_],
-                     NDArray[np.float_]]:
-        """Get nonlinear constraints and their derivatives at point ``x``.
+            -> Tuple[NDArray[np.float_], NDArray[np.float_]]:
+        """Get nonlinear constraints at point ``x``.
 
         Args:
             x: Vector of variable values for which the constraints should be
@@ -189,33 +186,65 @@ class NLPSolvable(abc.ABC):
         Returns:
             :Tuple that contains four ``ndarray`` instances:
 
-            - vector of nonlinear inequality constraint values, or empty
-              ``ndarray`` if no such constraints are defined;
-            - vector of nonlinear equality constraint values, or empty
-              ``ndarray`` if no such constraints are defined;
-            - Jacobian matrix of nonlinear inequality constraints, or empty
-              ``ndarray`` if no such constraints are defined;
-            - Jacobian matrix of nonlinear equality constraints, or empty
-              ``ndarray`` if no such constraints are defined;
+            - Vector of nonlinear inequality constraint values at point ``x``.
+              The size of the vector is equal to the number of nonlinear
+              inequality constraints defined. If no such constraints are
+              defined, it will be an empty ``ndarray`` instance.
+            - Vector of nonlinear equality constraint values at point ``x``.
+              The size of the vector is equal to the number of nonlinear
+              equality constraints defined. If no such constraints are
+              defined, it will be an empty ``ndarray`` instance.
         """
 
     @abc.abstractmethod
-    def objective_function(self, x: NDArray[np.float_]) \
-            -> Tuple[float, NDArray[np.float_]]:
-        """Calculate objective function value and gradient.
+    def nonlinear_constraints_jacobian(self, x: NDArray[np.float_]) \
+            -> Tuple[NDArray[np.float_], NDArray[np.float_]]:
+        """Get Jacobian matrices of nonlinear constraints at point ``x``.
+
+        *Jacobian matrix* of a vector-valued function is the matrix of all its
+        first-order partial derivatives.
+
+        Args:
+            x: Vector of variable values, with :py:attr:`x_count` elements.
+
+        Returns:
+            :Tuple that contains two matrices:
+
+            - Jacobian matrix of nonlinear inequality constraints. Number of
+              rows is equal to the number of nonlinear inequality constraints
+              defined, while number of columns is equal to :py:attr:`x_count`.
+              If no nonlinear inequality constraints are defined, it will be an
+              empty ``ndarray`` instance.
+            - Jacobian matrix of nonlinear equality constraints. Number of rows
+              is equal to the number of nonlinear equality constraints defined,
+              while number of columns is equal to :py:attr:`x_count`. If no
+              nonlinear equality constraints are defined, it will be an empty
+              ``ndarray`` instance.
+        """
+
+    @abc.abstractmethod
+    def objective(self, x: NDArray[np.float_]) -> float:
+        """Calculate objective function value at point ``x``.
 
         This method is actually *objective function* - the function whose
         return value solvers should minimize.
 
         Args:
-            x: Vector of variable values, with length :py:attr:`x_count`.
+            x: Vector of variable values, with :py:attr:`x_count` elements.
 
         Returns:
-            :Tuple that contains two elements:
+            Objective function value at point ``x``.
+        """
 
-            - objective function value for the supplied variables;
-            - gradient of objective function with respect to the variables.
-              It's a vector with :py:attr:`x_count` elements.
+    def gradient(self, x: NDArray[np.float_]) -> NDArray[np.float_]:
+        """Calculate gradient of the objective function at point ``x``.
+
+        Args:
+            x: Vector of variable values, with :py:attr:`x_count` elements.
+
+        Returns:
+            Gradient of the objective function. It's a vector with
+            :py:attr:`x_count` elements.
         """
 
     # flake8: noqa: E731
@@ -242,7 +271,7 @@ class NLPSolvable(abc.ABC):
         .. note::
            If the method is implemented, :py:func:`hessian_structure` also
            needs to be implemented, and :py:attr:`implements_hessian` should
-           be verriden to return ``True``.
+           be overriden to return ``True``.
 
         Args:
             x: Vector of variable values, with length :py:attr:`x_count`
@@ -268,10 +297,13 @@ class NLPSolvable(abc.ABC):
         *full*. This  method defines the shape of the matrix returned by
         :py:func:`hessian` method.
 
+        Raises:
+            NotImplementedError: if the method is not implemented, in which
+                case :py:attr:`implements_hessian` has to return ``False``.
+
         Returns:
             Matrix with the same dimensions as the one returned by
             :py:func:`hessian`, that contains ones at the positions where the
-            actual Hessian matrix contains values, and zeros at other
-            positions.
+            actual Hessian matrix contains values, and zeros elsewhere.
         """
         raise NotImplementedError
