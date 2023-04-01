@@ -126,7 +126,29 @@ class HS071(NLPSolvable):
         return np.zeros((0, 0)), np.zeros((0, 0))
 
     @property
-    def nonlinear_inequality_constraints_count(self) -> int:
+    def implements_gradient(self) -> bool:
+        """Indicates if gradient is implemented.
+
+        Returns:
+            ``True`` since :py:func:`gradient` is implemented in this class.
+        """
+        return False
+
+    @property
+    def implements_hessian(self) -> bool:
+        """Indicates if hessian is implemented.
+
+        If the derived class overrides :py:func:`hessian` method, and
+        implements it properly, this property should return ``True``.
+        Otherwise, the property must return ``False``.
+
+        Returns:
+            ``True`` since :py:func:`hessian` is implemented in this class.
+        """
+        return False
+
+    @property
+    def nonlin_ineq_constraints_count(self) -> int:
         """Get nonlinear inequality constraints count.
 
         The problem defines one nonlinear inequality constraint, so this method
@@ -138,7 +160,7 @@ class HS071(NLPSolvable):
         return 1
 
     @property
-    def nonlinear_equality_constraints_count(self) -> int:
+    def nonlin_eq_constraints_count(self) -> int:
         """Get nonlinear equality constraints count.
 
         The problem defines one nonlinear equality constraint, so this method
@@ -439,3 +461,18 @@ class HS071(NLPSolvable):
             [0, 0, 0, 2]
         ])
         return hess
+
+    def intermediate(self, **kwargs) -> bool:
+        """Process intermediate status.
+
+        Simply prints ``**kwargs``.
+
+        Args:
+            **kwargs: Arguments provided by actual solvers used, and can be
+                different for different solvers.
+
+        Returns:
+            ``True``
+        """
+        print(**kwargs)
+        return True

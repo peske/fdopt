@@ -73,7 +73,7 @@ class NLPSolvable(abc.ABC):
            x \geqslant x_{lower}
 
         Returns:
-            Vector with :func:`x_count` elements which are representing minimal
+            Vector with :attr:`x_count` elements which are representing minimal
             values of the corresponding variables, or an empty ``ndarray`` if
             no such a constraint is defined.
         """
@@ -89,8 +89,8 @@ class NLPSolvable(abc.ABC):
            x \leqslant x_{upper}
 
         Returns:
-            Vector with :func:`x_count` elements which are representing maximal
-            values of the corresponding variables, , or an empty ``ndarray`` if
+            Vector with :attr:`x_count` elements which are representing maximal
+            values of the corresponding variables, or an empty ``ndarray`` if
             no such a constraint is defined.
         """
 
@@ -143,21 +143,34 @@ class NLPSolvable(abc.ABC):
         """
 
     @property
+    def implements_gradient(self) -> bool:
+        """Indicates if gradient is implemented.
+
+        If the derived class overrides :py:func:`gradient` method, and
+        implements it properly, this property should return ``True``.
+        Otherwise, the property must return ``False``.
+
+        Returns:
+            ``True`` if gradient is implemented, ``False`` otherwise.
+        """
+        return False
+
+    @property
     def implements_hessian(self) -> bool:
-        """Indicates if analytical hessian is implemented.
+        """Indicates if hessian is implemented.
 
         If the derived class overrides :py:func:`hessian` method, and
         implements it properly, this property should return ``True``.
         Otherwise, the property must return ``False``.
 
         Returns:
-            ``True`` if analytical hessian is implemented, ``False`` otherwise.
+            ``True`` if hessian is implemented, ``False`` otherwise.
         """
         return False
 
     @property
     @abc.abstractmethod
-    def nonlinear_inequality_constraints_count(self) -> int:
+    def nonlin_ineq_constraints_count(self) -> int:
         """Get nonlinear inequality constraints count.
 
         Returns:
@@ -166,7 +179,7 @@ class NLPSolvable(abc.ABC):
 
     @property
     @abc.abstractmethod
-    def nonlinear_equality_constraints_count(self) -> int:
+    def nonlin_eq_constraints_count(self) -> int:
         """Get nonlinear equality constraints count.
 
         Returns:
@@ -236,17 +249,32 @@ class NLPSolvable(abc.ABC):
             Objective function value at point ``x``.
         """
 
-    @abc.abstractmethod
     def gradient(self, x: NDArray[np.float_]) -> NDArray[np.float_]:
         """Calculate gradient of the objective function at point ``x``.
 
+        Note that this method does not have to be implemented. If it is not
+        implemented, the solvers will be able to calculate some approximation
+        of it. But if it is properly implemented, it can significantly speed up
+        the optimization process, and sometimes even somewhat improve the
+        solution.
+
+        .. note::
+           If this method is overriden and properly implemented,
+           :py:attr:`implements_gradient` property should also be overriden to
+           return ``True``.
+
         Args:
             x: Vector of variable values, with :py:attr:`x_count` elements.
+
+        Raises:
+            NotImplementedError: if the method is not implemented, in which
+                case :py:attr:`implements_gradient` has to return ``False``.
 
         Returns:
             Gradient of the objective function. It's a vector with
             :py:attr:`x_count` elements.
         """
+        raise NotImplementedError
 
     # flake8: noqa: E731
     # pylint: disable=line-too-long
@@ -277,6 +305,11 @@ class NLPSolvable(abc.ABC):
            :py:attr:`implements_hessian` property should also be overriden to
            return ``True``.
 
+        .. note::
+           Implementing this method without implementing :py:func:`gradient`
+           doesn't make sense, so if gradient isn't implemented, this method
+           will be ignored no matter :py:attr:`implements_hessian` value.
+
         Args:
             x: Vector of variable values, with length :py:attr:`x_count`.
             sigma: Coefficient for objective function Hessian.
@@ -293,3 +326,21 @@ class NLPSolvable(abc.ABC):
             Hessian matrix. It is a square matrix with :py:attr:`x_count` rows.
         """
         raise NotImplementedError
+
+    # pylint: disable=unused-argument
+    # noinspection PyMethodMayBeStatic,PyUnusedLocal
+    def intermediate(self, **kwargs) -> bool:
+        """Callback method that is called once per iteration.
+
+        The method can be used to obtain information about the optimization
+        status while solving. It also can be used to break the process: if this
+        method returns ``False`` solving will be terminated.
+
+        Args:
+            **kwargs: Arguments provided by actual solvers used, and can be
+                different for different solvers.
+
+        Returns:
+            ``False`` if solving process should be aborted, ``True`` otherwise.
+        """
+        return True

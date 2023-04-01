@@ -16,34 +16,42 @@ dependencies:
   - charset-normalizer=2.1.1=pyhd8ed1ab_0
   - colorama=0.4.6=pyhd8ed1ab_0
   - cryptography=38.0.3=py310h6e82f81_0
+  - cyipopt=1.1.0=py310hbb20326_6
   - dill=0.3.6=pyhd8ed1ab_1
   - distlib=0.3.6=pyhd8ed1ab_0
   - docutils=0.19=py310h5588dad_1
   - exceptiongroup=1.0.4=pyhd8ed1ab_0
   - filelock=3.8.0=pyhd8ed1ab_0
   - flake8=5.0.4=pyhd8ed1ab_0
+  - future=0.18.2=pyhd8ed1ab_6
   - identify=2.5.8=pyhd8ed1ab_0
   - idna=3.4=pyhd8ed1ab_0
   - imagesize=1.4.1=pyhd8ed1ab_0
   - importlib-metadata=5.0.0=pyha770c72_1
   - iniconfig=1.1.1=pyh9f0ad1d_0
   - intel-openmp=2022.1.0=h57928b3_3787
+  - ipopt=3.14.10=ha9547d1_0
   - isort=5.10.1=pyhd8ed1ab_0
   - jinja2=3.1.2=pyhd8ed1ab_1
   - lazy-object-proxy=1.8.0=py310h8d17308_0
   - libblas=3.9.0=16_win64_mkl
   - libcblas=3.9.0=16_win64_mkl
   - libffi=3.4.2=h8ffe710_5
+  - libflang=5.0.0=h6538335_20180525
   - liblapack=3.9.0=16_win64_mkl
   - libsqlite=3.39.4=hcfcfb64_0
   - libzlib=1.2.13=hcfcfb64_4
+  - llvm-meta=5.0.0=0
   - markupsafe=2.1.1=py310h8d17308_2
   - mccabe=0.7.0=pyhd8ed1ab_0
+  - metis=5.1.0=h0e60522_1006
   - mkl=2022.1.0=h6a75c08_874
+  - mumps-seq=5.2.1=hb3f9cae_11
   - mypy=0.990=py310h8d17308_2
   - mypy_extensions=0.4.3=py310h5588dad_6
   - nodeenv=1.7.0=pyhd8ed1ab_0
   - numpy=1.23.4=py310h4a8f9c9_1
+  - openmp=5.0.0=vc14_1
   - openssl=3.0.7=hcfcfb64_0
   - packaging=21.3=pyhd8ed1ab_0
   - pip=22.3.1=pyhd8ed1ab_0
@@ -67,6 +75,7 @@ dependencies:
   - pyyaml=6.0=py310h8d17308_5
   - requests=2.28.1=pyhd8ed1ab_1
   - setuptools=65.5.1=pyhd8ed1ab_0
+  - six=1.16.0=pyh6c4a22f_0
   - snowballstemmer=2.2.0=pyhd8ed1ab_0
   - sphinx=5.3.0=pyhd8ed1ab_0
   - sphinxcontrib-applehelp=1.0.2=py_0
@@ -102,3 +111,4 @@ dependencies:
     - pep517==0.13.0
     - soupsieve==2.3.2.post1
     - sphinx-basic-ng==1.0.0b1
+prefix: C:\Users\peske\anaconda3\envs\physics

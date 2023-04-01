@@ -22,7 +22,7 @@ project = 'FDOpt'
 copyright = '2022, Aleksandar Pesic'
 author = 'Aleksandar Pesic'
 release = '0.1.0'
-html_baseurl = 'https://peske.github.io/docs/fdopt'
+html_baseurl = 'https://peske.github.io/fdopt'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
